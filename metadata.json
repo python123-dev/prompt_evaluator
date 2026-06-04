@@ -1,0 +1,6 @@
+{
+  "name": "Prompt Evaluator",
+  "description": "An AI-powered tool to score and optimize user prompts based on clarity, specificity, and relevance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
