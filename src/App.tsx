@@ -155,12 +155,9 @@ export default function App() {
       {/* Header */}
       <header className="w-full py-6 px-6 sm:px-12 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-30 transition-colors duration-200">
         <div className="flex items-center space-x-3">
-          <div className="bg-indigo-600 p-2 rounded-xl text-white">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl font-semibold tracking-tight">Prompt Evaluator</h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium tracking-tight hidden sm:block">AI-Powered Optimization</p>
+          <img src={isDarkMode ? "/logo-dark.png" : "/logo_light.png"} alt="Logo" className="w-10 h-10 object-contain" />
+          <div className="hidden sm:flex flex-col justify-center">
+            <img src={isDarkMode ? "/page_name_dark.png" : "/page_name.png"} alt="Prompt To Perfect" className="h-6 object-contain" />
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -320,7 +317,7 @@ export default function App() {
                 {/* Optimized Rewrite */}
                 <div className="bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 rounded-3xl p-8 relative overflow-hidden">
                    <div className="absolute top-0 right-0 p-8 opacity-10">
-                      <Sparkles className="w-32 h-32 text-indigo-700 dark:text-indigo-400" />
+                      <img src={isDarkMode ? "/logo-dark.png" : "/logo_light.png"} alt="Logo" className="w-32 h-32 object-contain opacity-50 grayscale" />
                    </div>
                    <div className="relative z-10">
                      <div className="flex items-center justify-between mb-4">
@@ -387,7 +384,7 @@ export default function App() {
       
       {/* Footer */}
       <footer className="w-full py-8 text-center text-slate-400 text-sm font-medium">
-        Powered by Gemini • Built in AI Studio
+        Powered by Gemini
       </footer>
 
       {/* History Drawer */}
