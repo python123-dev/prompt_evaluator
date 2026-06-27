@@ -112,7 +112,11 @@ export default function App() {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to evaluate prompt. Please try again later.');
+        let errorData;
+        try {
+          errorData = await res.json();
+        } catch(e) {}
+        throw new Error(errorData?.error || 'Failed to evaluate prompt. Please try again later.');
       }
 
       const data = await res.json();

@@ -29,7 +29,7 @@ async function startServer() {
       }
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-3.1-flash-lite",
         contents: `Evaluate the following prompt based on clarity, specificity, and expected relevance.
 Prompt to evaluate: "${prompt}"
 
@@ -46,50 +46,17 @@ Provide your evaluation in a structured JSON format with the following:
           responseSchema: {
             type: Type.OBJECT,
             properties: {
-              overallScore: {
-                type: Type.NUMBER,
-                description: "Overall score from 1 to 10.",
-              },
-              clarityScore: {
-                type: Type.NUMBER,
-                description: "Clarity score from 1 to 10.",
-              },
-              specificityScore: {
-                type: Type.NUMBER,
-                description: "Specificity score from 1 to 10.",
-              },
-              relevanceScore: {
-                type: Type.NUMBER,
-                description: "Expected relevance score from 1 to 10.",
-              },
-              feedback: {
-                type: Type.STRING,
-                description: "Actionable feedback on how to improve it.",
-              },
-              optimizedPrompt: {
-                type: Type.STRING,
-                description: "A re-written, optimized version of the prompt.",
-              },
-              promptType: {
-                type: Type.STRING,
-                description: "Categorize the prompt type.",
-                enum: [
-                  "Zero-Shot",
-                  "Few-Shot/One-Shot",
-                  "Role/Persona-Based",
-                  "Chain-of-Thought",
-                  "Generic/Direct Instruction",
-                ],
-              },
+              overallScore: { type: Type.NUMBER },
+              clarityScore: { type: Type.NUMBER },
+              specificityScore: { type: Type.NUMBER },
+              relevanceScore: { type: Type.NUMBER },
+              feedback: { type: Type.STRING },
+              optimizedPrompt: { type: Type.STRING },
+              promptType: { type: Type.STRING }
             },
             required: [
-              "overallScore",
-              "clarityScore",
-              "specificityScore",
-              "relevanceScore",
-              "feedback",
-              "optimizedPrompt",
-              "promptType",
+              "overallScore", "clarityScore", "specificityScore",
+              "relevanceScore", "feedback", "optimizedPrompt", "promptType"
             ],
           },
         },
@@ -100,12 +67,23 @@ Provide your evaluation in a structured JSON format with the following:
         throw new Error("No response generated from the model.");
       }
       
+      // Strip markdown JSON block if present
+      responseText = responseText.trim();
+      if (responseText.startsWith('```json')) {
+        responseText = responseText.substring(7);
+      } else if (responseText.startsWith('```')) {
+        responseText = responseText.substring(3);
+      }
+      if (responseText.endsWith('```')) {
+        responseText = responseText.substring(0, responseText.length - 3);
+      }
+      
       const evaluation = JSON.parse(responseText.trim());
 
       res.json(evaluation);
     } catch (error: any) {
       console.error("Error evaluating prompt:", error);
-      res.status(500).json({ error: "Failed to evaluate prompt. Please check your API key and try again." });
+      res.status(500).json({ error: error.message || "Failed to evaluate prompt. Please check your API key and try again." });
     }
   });
 
